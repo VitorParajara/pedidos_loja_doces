@@ -6,8 +6,8 @@ class ClienteModel {
         this.conexao = mysql.createConnection(config.db);
     }
 
-    create(nome_cliente) {
-        let sql = `INSERT INTO clientes VALUES("${null}","${nome_cliente}");`;
+    create(nome_cliente,endereco) {
+        let sql = `INSERT INTO clientes VALUES("${null}","${nome_cliente}","${endereco}");`;
         
        return new Promise((resolve,reject)=>{
         this.conexao.query(sql,(erro,retorno)=>{

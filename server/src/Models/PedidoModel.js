@@ -1,27 +1,27 @@
 import mysql from "mysql2"
 import config from "../Config.js";
 
-class DoceModel {
+class PedidoModel {
     constructor() {
         this.conexao = mysql.createConnection(config.db);
     }
 
-    create(nome_doce, id_categoria) {
-        let sql = `INSERT INTO doces VALUES("${null}","${nome_doce}", ${id_categoria});`;
+    create(descricao, valor, id_cliente) {
+        let sql = `INSERT INTO pedidos VALUES(${null},"${descricao}",${valor}, ${id_cliente});`;
         
        return new Promise((resolve,reject)=>{
         this.conexao.query(sql,(erro,retorno)=>{
             if(erro){
                 reject([400,erro])
             }
-            resolve([201,"Doce Adicionado"])
+            resolve([201,"Pedido Adicionado"])
         })
        });
     
     }
 
     read() {
-        let sql = `SELECT * FROM doces;`;
+        let sql = `SELECT * FROM pedidos;`;
         return new Promise((resolve,reject)=>{
             this.conexao.query(sql,(erro,retorno)=>{
                 if(erro){
@@ -32,8 +32,8 @@ class DoceModel {
         });
     }
 
-    update(id_doce, nome_doce, id_categoria) {
-        let sql = `update doces set nome_doce="${nome_doce}", id_categoria=${id_categoria} where id_doce = ${id_doce};`;
+    update(id_pedido, descricao, valor, id_cliente) {
+        let sql = `update pedidos set descricao="${descricao}", valor=${valor},  id_cliente=${id_cliente} where id_pedido = ${id_pedido};`;
 
         return new Promise((resolve,reject)=>{
             this.conexao.query(sql,(erro,retorno)=>{
@@ -42,15 +42,15 @@ class DoceModel {
                 }else if(retorno.affectedRows>0){
                     resolve([200],retorno)
                 }else{
-                    resolve([404,"Doce não encontrado"])
+                    resolve([404,"Pedido não encontrado"])
                 }
                 
             })
         });
     }
 
-    delete(id_doce) {
-        let sql = `DELETE FROM doces WHERE id_doce = ${id_doce};`;
+    delete(id_pedido) {
+        let sql = `DELETE FROM pedidos WHERE id_pedido = ${id_pedido};`;
 
         return new Promise((resolve,reject)=>{
             this.conexao.query(sql,(erro,retorno)=>{
@@ -59,11 +59,11 @@ class DoceModel {
                 }else if(retorno.affectedRows>0){
                     resolve([200],retorno)
                 }else{
-                    resolve([404,"Doce não encontrado"])
+                    resolve([404,"Pedido não encontrado"])
                 }
             })
         });
     }
 }
 
-export default new DoceModel();
+export default new PedidoModel();
